@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
+#include <string.h>
 
-int nameMaker(userName);
+void nameMaker(userName);
 
 int main(void) {
   printf(
@@ -11,6 +12,9 @@ int main(void) {
   char nickname[20];
   char nameStyle[4][50] = {"본래 닉네임과 근접한 닉네임", "웃긴 닉네임",
                            "의미없는 닉네임", "특수문자로 꾸민 닉네임"};
+  char nameDeco[10] = {'a', 'b', 'c', 'd', 'e',
+                       'f', 'g', 'h', 'i', 'j'}; // 임시로 가정
+
   printf("자신의 닉네임: ");
   scanf_s("%s", nickname, sizeof(nickname));
   printf("\n입력된 닉네임: %s\n\n", nickname);
@@ -23,13 +27,22 @@ int main(void) {
   int choice;
   printf("종류 선택 (1-4): ");
   scanf_s("%d", &choice);
-  printf("\n선택된 종류: %d. %s", choice, nameStyle[choice-1]);
+  printf("\n선택된 종류: %d. %s\n\n", choice, nameStyle[choice-1]);
 
+  int position = 5;
+  nameMaker(nickname, nameDeco[0], position);
 
-
-
+  printf("%s\n", nickname);
 }
 
-int nameMaker(userName) { 
-    // TO-DO: 구조체 배우고 나서 만들 것
+void nameMaker(char *nickname, char nameDeco, int position) { // 한글로 하면 작동이 잘 안됨. 고민을 더 해봐야겠다.
+  // TO-DO: 숫자, 문자, 문자열이 들은 배열이 필요. 구조체 지식 필요할 듯.
+
+  int nameLen = strlen(nickname);
+
+  // 문자열의 끝부터 시작하여 position까지 문자열 이동
+  for (int i = nameLen; i >= position; i--) {
+    nickname[i + 1] = nickname[i];
+  }
+  nickname[position] = nameDeco;
 }
