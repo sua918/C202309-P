@@ -4,7 +4,14 @@
 #include <time.h>
 
 void nameMaker(char *nickname, char nameDeco, int position);
+
 int nameLen;
+
+char nickname[20];
+char nameStyle[4][50] = {"본래 닉네임과 근접한 닉네임", "웃긴 닉네임",
+                         "의미없는 닉네임", "특수문자로 꾸민 닉네임"};
+char nameDeco[10] = {'a', 'b', 'c', 'd', 'e', 'f',
+                     'g', 'h', 'i', 'j'};  // 임시로 가정, 구조체 배운 뒤 확장
 
 int main(void) {
   printf(
@@ -12,11 +19,6 @@ int main(void) {
       "닉네임 자동 추천 프로그램, '뉴네임메이커'가 실행되었습니다.\n"
       "사용하고자 하는 자신의 고유 닉네임을 입력해주세요.\n\n"
       "=========================================================\n\n");
-  char nickname[20];
-  char nameStyle[4][50] = {"본래 닉네임과 근접한 닉네임", "웃긴 닉네임",
-                           "의미없는 닉네임", "특수문자로 꾸민 닉네임"};
-  char nameDeco[10] = {'a', 'b', 'c', 'd', 'e',
-                       'f', 'g', 'h', 'i', 'j'};  // 임시로 가정
 
   printf("자신의 닉네임: ");
   scanf_s("%s", nickname, (int)sizeof(nickname));
@@ -27,15 +29,19 @@ int main(void) {
       "1. %s  2. %s  3. %s  4. "
       "%s\n\n",
       nameStyle[0], nameStyle[1], nameStyle[2], nameStyle[3]);
+
   int choice;
+
   printf("종류 선택 (1-4): ");
   scanf_s("%d", &choice);
   printf("\n선택된 종류: %d. %s\n\n", choice, nameStyle[choice - 1]);
 
   int nameLen = strlen(nickname);
+
   srand(time(NULL));                // 난수 생성이 가능하게 함
   int position = rand() % nameLen;  // 닉네임 글자 수에서 랜덤하게 정해짐
   int randDeco = rand() % 10;  // 닉네임 꾸밈 요소의 개수에서 랜덤하게 정해짐
+
   nameMaker(nickname, nameDeco[randDeco], position);
 
   printf("%s\n", nickname);
