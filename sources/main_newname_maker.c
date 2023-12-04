@@ -3,7 +3,10 @@
 #include <string.h>
 #include <time.h>
 
-void nameMaker(char *nickname, char nameDeco, int position);
+void nameMaker1(char *nickname, char *nameDeco, int position);
+void nameMaker2(char *nickname, char *nameDeco, int position);
+void nameMaker3(char *nickname, char *nameDeco, int position);
+void nameMaker4(char *nickname, char *nameDeco, int position);
 
 int nameLen;
 
@@ -42,7 +45,15 @@ int main(void) {
   int position = rand() % nameLen;  // 닉네임 글자 수에서 랜덤하게 정해짐
   int randDeco = rand() % 10;  // 닉네임 꾸밈 요소의 개수에서 랜덤하게 정해짐
 
-  nameMaker(nickname, nameDeco[randDeco], position);
+  if (choice == 1) {
+    nameMaker1(nickname, nameDeco[randDeco], position);
+  } else if (choice == 2) {
+    nameMaker2(nickname, nameDeco[randDeco], position);
+  } else if (choice == 3) {
+    nameMaker3(nickname, nameDeco[randDeco], position);
+  } else if (choice == 4) {
+    nameMaker4(nickname, nameDeco[randDeco], position);
+  }
 
   printf("%s\n", nickname);
 
@@ -50,7 +61,11 @@ int main(void) {
 }
 
 // 한글로 하면 작동이 잘 안됨. 영어 닉네임으로 바꾸든가 고민을 더 해봐야겠다.
-void nameMaker(char *nickname, char nameDeco, int position) {
+void nameMaker1(char *nickname, char *nameDeco, int position) {}
+
+void nameMaker2(char *nickname, char *nameDeco, int position) {}
+
+void nameMaker3(char *nickname, char *nameDeco, int position) {
   int nameLen = strlen(nickname);
 
   // 문자열의 끝부터 시작하여 position까지 문자열 이동
@@ -59,3 +74,5 @@ void nameMaker(char *nickname, char nameDeco, int position) {
   }
   nickname[position] = nameDeco;
 }
+
+void nameMaker4(char *nickname, char *nameDeco, int position) {}
