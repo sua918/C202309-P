@@ -3,18 +3,24 @@
 #include <string.h>
 #include <time.h>
 
-void nameMaker1(char *nickname, char *nameDeco, int position);
-void nameMaker2(char *nickname, char *nameDeco, int position);
-void nameMaker3(char *nickname, char *nameDeco, int position);
-void nameMaker4(char *nickname, char *nameDeco, int position);
+void nameMaker1(char *nickname, char *name_deco, int position);
+void nameMaker2(char *nickname, char *name_deco, int position);
+void nameMaker3(char *nickname, char *name_deco, int position);
+void nameMaker4(char *nickname, char *name_deco, int position);
 
 int nameLen;
 
 char nickname[20];
-char nameStyle[4][50] = {"본래 닉네임과 근접한 닉네임", "웃긴 닉네임",
-                         "의미없는 닉네임", "특수문자로 꾸민 닉네임"};
-char nameDeco[10] = {'a', 'b', 'c', 'd', 'e', 'f',
-                     'g', 'h', 'i', 'j'};  // 임시로 가정, 구조체 배운 뒤 확장
+char name_style[4][50] = {"본래 닉네임과 비슷한 닉네임", "웃긴 닉네임",
+                          "의미없는 닉네임", "특수문자로 꾸민 닉네임"};
+char name_deco1[4] = {'.', ',', '_', '`'};
+char name_deco2[18][20] = {
+    "Hilarious", "Comical",   "Amusing",    "Witty",     "Laughable",
+    "Silly",     "Goofy",     "Zany",       "Slapstick", "Sidesplitting",
+    "Dumb",      "Foolish",   "Dopey",      "Dimwitted", "Brainless",
+    "Dense",     "Pigheaded", "Blockheaded"};
+char name_deco3[100] = {""};
+char name_deco4[100] = {""};
 
 int main(void) {
   printf(
@@ -31,28 +37,28 @@ int main(void) {
       "다음의 종류 중 원하는 것을 선택하세요.\n\n"
       "1. %s  2. %s  3. %s  4. "
       "%s\n\n",
-      nameStyle[0], nameStyle[1], nameStyle[2], nameStyle[3]);
+      name_style[0], name_style[1], name_style[2], name_style[3]);
 
   int choice;
 
   printf("종류 선택 (1-4): ");
   scanf_s("%d", &choice);
-  printf("\n선택된 종류: %d. %s\n\n", choice, nameStyle[choice - 1]);
+  printf("\n선택된 종류: %d. %s\n\n", choice, name_style[choice - 1]);
 
-  int nameLen = strlen(nickname);
+  int name_len = strlen(nickname);
 
   srand(time(NULL));                // 난수 생성이 가능하게 함
-  int position = rand() % nameLen;  // 닉네임 글자 수에서 랜덤하게 정해짐
-  int randDeco = rand() % 10;  // 닉네임 꾸밈 요소의 개수에서 랜덤하게 정해짐
+  int position = rand() % name_len;  // 닉네임 글자 수에서 랜덤하게 정해짐
+  int rand_deco = rand() % 4;  // 닉네임 꾸밈 요소의 개수에서 랜덤하게 정해짐
 
   if (choice == 1) {
-    nameMaker1(nickname, nameDeco[randDeco], position);
+    nameMaker1(nickname, name_deco1[rand_deco], position);
   } else if (choice == 2) {
-    nameMaker2(nickname, nameDeco[randDeco], position);
+    nameMaker2(nickname, name_deco2[rand_deco], position);
   } else if (choice == 3) {
-    nameMaker3(nickname, nameDeco[randDeco], position);
+    nameMaker3(nickname, name_deco3[rand_deco], position);
   } else if (choice == 4) {
-    nameMaker4(nickname, nameDeco[randDeco], position);
+    nameMaker4(nickname, name_deco4[rand_deco], position);
   }
 
   printf("%s\n", nickname);
@@ -61,18 +67,26 @@ int main(void) {
 }
 
 // 한글로 하면 작동이 잘 안됨. 영어 닉네임으로 바꾸든가 고민을 더 해봐야겠다.
-void nameMaker1(char *nickname, char *nameDeco, int position) {}
-
-void nameMaker2(char *nickname, char *nameDeco, int position) {}
-
-void nameMaker3(char *nickname, char *nameDeco, int position) {
-  int nameLen = strlen(nickname);
+void nameMaker1(char *nickname, char *name_deco, int position) {
+  int name_len = strlen(nickname);
 
   // 문자열의 끝부터 시작하여 position까지 문자열 이동
-  for (int i = nameLen; i >= position; i--) {
+  for (int i = name_len; i >= position; i--) {
     nickname[i + 1] = nickname[i];
   }
-  nickname[position] = nameDeco;
+  nickname[position] = name_deco;
 }
 
-void nameMaker4(char *nickname, char *nameDeco, int position) {}
+void nameMaker2(char *nickname, char *name_deco, int position) {}
+
+void nameMaker3(char *nickname, char *name_deco, int position) {
+  int name_len = strlen(nickname);
+
+  // 문자열의 끝부터 시작하여 position까지 문자열 이동
+  for (int i = name_len; i >= position; i--) {
+    nickname[i + 1] = nickname[i];
+  }
+  nickname[position] = name_deco;
+}
+
+void nameMaker4(char *nickname, char *name_deco, int position) {}
