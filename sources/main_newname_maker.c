@@ -4,7 +4,7 @@
 #include <time.h>
 
 void nameMaker1(char *nickname, char *name_deco, int position);
-void nameMaker2(char *nickname, char *name_deco, int position);
+void nameMaker2(char *nickname, char *name_deco);
 void nameMaker3(char *nickname, char *name_deco, int position);
 void nameMaker4(char *nickname, char *name_deco, int position);
 
@@ -77,7 +77,18 @@ void nameMaker1(char *nickname, char *name_deco, int position) {
   nickname[position] = name_deco;
 }
 
-void nameMaker2(char *nickname, char *name_deco, int position) {}
+void nameMaker2(char *nickname, char *name_deco) {
+  int size = strlen(nickname) + strlen(name_deco); // 2차원 배열은 어떻게 해야하지?
+  char result = (char *)malloc(size);
+
+  if (result == NULL) {
+    return NULL;
+  }
+
+  strcpy_s(result, size, name_deco);
+  strcat_s(result, size, nickname);
+  return result;
+}
 
 void nameMaker3(char *nickname, char *name_deco, int position) {
   int name_len = strlen(nickname);
