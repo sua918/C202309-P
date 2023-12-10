@@ -79,7 +79,7 @@ int main(void) {
       if (choice == 1) {
         new_nicknames[i] = NameMakerChar(nickname, name_deco1);
       } else if (choice == 2) {
-        new_nicknames[i] = NameMakerStr(nickname, name_deco2, 18);
+        new_nicknames[i] = NameMakerStr(nickname, name_deco2, NUM_NAME_DECO2);
       } else if (choice == 3) {
         new_nicknames[i] = NameMakerChar(nickname, name_deco3);
       }
@@ -134,7 +134,7 @@ char *NameMakerChar(char *nickname, char *name_deco) {
   int position = rand() % name_len;
   int rand_deco = rand() % deco_len;
   int size = strlen(nickname) + 2;
-  char *result = (char *)malloc(size);
+  char *result = (char *)malloc(size);  // 동적 할당
   char new_nickname[MAX_NEW_NICKNAME_LENGTH];
   strcpy_s(new_nickname, MAX_NEW_NICKNAME_LENGTH, nickname);
 
@@ -148,6 +148,7 @@ char *NameMakerChar(char *nickname, char *name_deco) {
     new_nickname[i + 1] = new_nickname[i];
   }
 
+  // 랜덤한 자리에 랜덤한 문자를 삽입하고 result에 복사함
   new_nickname[position] = name_deco[rand_deco];
   strcpy_s(result, size, new_nickname);
 
@@ -159,12 +160,13 @@ char *NameMakerStr(char *nickname, char (*name_deco)[MAX_NAME_DECO_LENGTH],
                    int rows) {
   int rand_deco = rand() % rows;
   int size = strlen(nickname) + strlen(name_deco[rand_deco]) + 1;
-  char *result = (char *)malloc(size);
+  char *result = (char *)malloc(size);  // 동적 할당
 
   if (result == NULL) {
     return NULL;
   }
 
+  // 랜덤한 문자열을 복사하고 사용자의 닉네임과 붙임
   strcpy_s(result, size, name_deco[rand_deco]);
   strcat_s(result, size, nickname);
 
