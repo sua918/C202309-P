@@ -12,13 +12,18 @@
 #define NUM_NAME_STYLE 3
 #define NUM_NAME_DECO2 18
 
+// 구조체 정의
+typedef struct NicknameMaker {
+  char *user_nickname;
+  char *new_nicknames[NUM_NICKNAMES];
+} NICKNAME;
+
 // 함수 원형 선언
 char *NameMakerChar(char *nickname, char *name_deco);
-char *NameMakerStr(char *nickname, char *name_deco, int rows);
+char *NameMakerStr(char *nickname, char (*name_deco)[MAX_NAME_DECO_LENGTH],
+                   int rows);
 void FreeMemory(char **new_nicknames);
 
-char *new_nicknames[NUM_NICKNAMES];
-char nickname[MAX_NICKNAME_LENGTH + 1];
 char name_style[NUM_NAME_STYLE][MAX_NAME_STYLE_LENGTH] = {
     "본래 닉네임과 비슷한 닉네임", "웃긴 닉네임", "의미없는 닉네임"};
 char name_deco1[] = {'.', ',', '_', '`'};
@@ -46,12 +51,24 @@ int main(void) {
         "=========================================================\n\n",
         MAX_NICKNAME_LENGTH);
 
-    printf("자신의 닉네임: ");
+    // 구조체 포인터룰 사용
+    NICKNAME *nickname_maker = (NICKNAME *)malloc(sizeof(NICKNAME));
+
+    if (nickname_maker == NULL) {
+      return 1;
+    }
 
     // 사용자에게 닉네임을 입력받음
-    scanf_s("%20s", nickname, (int)sizeof(nickname));
+    printf("자신의 닉네임: ");
+    char temp[MAX_NICKNAME_LENGTH + 1];
+    scanf_s("%20s", temp, (int)sizeof(temp));
+    char ch = getchar();
 
-    printf("\n입력된 닉네임: %s\n\n", nickname);
+    nickname_maker->user_nickname =
+        (char *)malloc((strlen(temp) + 1) * sizeof(char));
+    strcpy_s(nickname_maker->user_nickname, strlen(temp) + 1, temp);
+
+    printf("\n입력된 닉네임: %s\n\n", nickname_maker->user_nickname);
     printf(
         "당신은 어떤 스타일의 닉네임을 선호하시나요?\n"
         "다음의 종류 중 원하는 것을 선택하세요.\n\n"
@@ -77,22 +94,32 @@ int main(void) {
     // 사용자의 선택에 따라 각 함수를 실행
     for (int i = 0; i < NUM_NICKNAMES; i++) {
       if (choice == 1) {
-        new_nicknames[i] = NameMakerChar(nickname, name_deco1);
+        nickname_maker->new_nicknames[i] =
+            NameMakerChar(nickname_maker->user_nickname, name_deco1);
       } else if (choice == 2) {
-        new_nicknames[i] = NameMakerStr(nickname, name_deco2, NUM_NAME_DECO2);
+        nickname_maker->new_nicknames[i] = NameMakerStr(
+            nickname_maker->user_nickname, name_deco2, NUM_NAME_DECO2);
       } else if (choice == 3) {
-        new_nicknames[i] = NameMakerChar(nickname, name_deco3);
+        nickname_maker->new_nicknames[i] =
+            NameMakerChar(nickname_maker->user_nickname, name_deco3);
       }
     }
 
     // 새로 만들어진 닉네임 3개를 순서대로 출력
     for (int i = 0; i < NUM_NICKNAMES; i++) {
-      if (new_nicknames[i] != NULL) {
-        printf("새 닉네임 %d: %s\n", i + 1, new_nicknames[i]);
+      if (nickname_maker->new_nicknames[i] != NULL) {
+        printf("새 닉네임 %d: %s\n", i + 1, nickname_maker->new_nicknames[i]);
       }
     }
 
-    FreeMemory(new_nicknames);  // 할당된 메모리 해제
+    // 할당된 메모리 해제
+    FreeMemory(nickname_maker->new_nicknames);
+
+    free(nickname_maker->user_nickname);
+    nickname_maker->user_nickname = NULL;
+
+    free(nickname_maker);
+    nickname_maker = NULL;
 
     int end;  // 프로그램 종료를 위한 변수
 
